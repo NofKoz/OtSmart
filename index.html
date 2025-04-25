@@ -211,7 +211,37 @@ function calculateResult() {
     document.getElementById("result").style.display = "block";
 }
 
+
 function summarizeResults(codes) {
+    const codeCount = { F: 0, A: 0, I: 0, R: 0 };
+    codes.forEach(c => {
+        if (codeCount.hasOwnProperty(c)) {
+            codeCount[c]++;
+        }
+    });
+
+    let summary = "<ul style='line-height:1.8'>";
+    summary += `<li><strong>F – מקדם:</strong> ${codeCount.F}</li>`;
+    summary += `<li><strong>A – מאפשר:</strong> ${codeCount.A}</li>`;
+    summary += `<li><strong>I – מעכב:</strong> ${codeCount.I}</li>`;
+    summary += `<li><strong>R – מגביל:</strong> ${codeCount.R}</li>`;
+    summary += "</ul>";
+
+    if (codeCount.R > 0) {
+        summary += "<p><strong>פירוש קליני:</strong> קיימים תחומים שמגבילים משמעותית את התפקוד ודורשים התערבות ממוקדת ודחופה.</p>";
+    } else if (codeCount.I > 0) {
+        summary += "<p><strong>פירוש קליני:</strong> קיימים תחומים שמעכבים את ההשתתפות ודורשים התייחסות טיפולית מותאמת.</p>";
+    } else if (codeCount.A > 0) {
+        summary += "<p><strong>פירוש קליני:</strong> התחומים מאפשרים תפקוד בסיסי, ויש פוטנציאל לחיזוק וקידום ההשתתפות.</p>";
+    } else if (codeCount.F > 0) {
+        summary += "<p><strong>פירוש קליני:</strong> כל התחומים שנבחרו מקדמים השתתפות – תמונה חיובית.</p>";
+    } else {
+        summary += "<p><strong>לא נבחרו קידודים. אין אפשרות להציג סיכום.</strong></p>";
+    }
+
+    return summary;
+}
+
     const codeCount = { F: 0, A: 0, I: 0, R: 0 };
 
     codes.forEach(c => {
